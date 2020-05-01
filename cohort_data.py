@@ -119,8 +119,35 @@ def all_names_by_house(filename):
     instructors = []
 
     # TODO: replace this with your code
+    active_file = open(filename)
 
-    return []
+    for line in active_file:
+      line = line.rstrip()
+      data = line.split("|")
+      first = data[0]
+      last = data[1]
+      house = data[2]
+      cohort = data[4]
+
+      if house == "Dumbledore's Army":
+        dumbledores_army.append(first + " " + last)
+      elif house == "Gryffindor":
+        gryffindor.append(first + " " + last)
+      elif house == "Hufflepuff":
+        hufflepuff.append(first + " " + last)
+      elif house == "Ravenclaw":
+        ravenclaw.append(first + " " + last)
+      elif house == "Slytherin":
+        slytherin.append(first + " " + last)
+      elif cohort == "I":
+        instructors.append(first + " " + last)
+      else:
+        ghosts.append(first + " " + last)
+
+    rosters = [dumbledores_army, gryffindor, hufflepuff, ravenclaw, slytherin, ghosts, instructors]
+    for roster in rosters:
+      roster.sort()
+    return rosters
 
 
 def all_data(filename):
@@ -145,6 +172,16 @@ def all_data(filename):
     all_data = []
 
     # TODO: replace this with your code
+    active_file = open(filename)
+
+    for line in active_file:
+      line = line.rstrip()
+      data = line.split("|")
+      first = data[0]
+      last = data[1]
+      data[:2] = [first + " " + last]
+      data = tuple(data)
+      all_data.append(data)
 
     return all_data
 
@@ -171,6 +208,16 @@ def get_cohort_for(filename, name):
     """
 
     # TODO: replace this with your code
+    active_file = open(filename)
+
+    for line in active_file:
+      line = line.rstrip()
+      data = line.split("|")
+      students_name = data[0] + " " + data[1]
+      cohort = data[4]
+
+      if students_name == name:
+        return cohort
 
 
 def find_duped_last_names(filename):
@@ -188,6 +235,23 @@ def find_duped_last_names(filename):
     """
 
     # TODO: replace this with your code
+    duplicates = set()
+    last_names = set()
+
+    active_file = open(filename)
+
+    for line in active_file:
+      line = line.rstrip()
+      data = line.split("|")
+      last = data[1]
+
+      if last in last_names:
+        duplicates.add(last)
+
+      else:
+        last_names.add(last)
+
+    return duplicates
 
 
 def get_housemates_for(filename, name):
@@ -203,6 +267,23 @@ def get_housemates_for(filename, name):
     """
 
     # TODO: replace this with your code
+    data = all_data(filename)
+
+    for student in data:
+      if student[0] == name:
+        house = student[1]
+        cohort = student[3]
+        break
+
+    housemates = set()
+    for student in data:
+      student_name = student[0]
+      students_house = student[1]
+      students_cohort = student[3]
+      if students_house == house and students_cohort == cohort and student_name != name:
+        housemates.add(student_name)
+
+    return housemates
 
 
 ##############################################################################
