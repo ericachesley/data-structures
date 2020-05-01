@@ -61,19 +61,20 @@ def students_by_cohort(filename, cohort='All'):
 
     # TODO: replace this with your code
     active_file = open(filename)
+    bad_cohorts = {"I", "G"}
+
     for line in active_file:
       line = line.rstrip()
       data = line.split("|")
       first = data[0]
       last = data[1]
+      students_cohort = data[4]
 
-      if cohort == 'All':
+      if cohort == 'All' and students_cohort not in bad_cohorts:
         students.append(first + " " + last)
 
-      else:
-        students_cohort = data[4]
-        if students_cohort == cohort:
-          students.append(first + " " + last)
+      elif students_cohort == cohort:
+        students.append(first + " " + last)
 
     return sorted(students)
 
